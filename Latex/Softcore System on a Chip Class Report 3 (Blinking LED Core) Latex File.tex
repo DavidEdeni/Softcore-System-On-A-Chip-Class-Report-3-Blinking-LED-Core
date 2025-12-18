@@ -1,0 +1,34 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage{graphicx} % LaTeX package to import graphics
+\graphicspath{{images/}} % Configuring the graphicx package
+\title{
+    \underline{\textbf{Softcore System on a Chip Class Report 3:}}
+    \underline{\textbf{Blinking-LED Core}} % Centered & underlined
+   }
+\author{David Edeni}
+\date{December 13th, 2025}
+\begin{document}
+\maketitle
+\noindent \\\\\\\\ \underline{\textbf{Lab Description:}}
+\maketitle \\\\This project is a Verilog implementation of a blinking-LED core that can turn LEDs on and off at specific rates. The core has a four-bit output signal connected to four discrete LEDs. It has four 16-bit registers that specify the values of the individual blinking intervals in milliseconds. With the blinking-LED core, the processor only needs to write the registers.
+\newpage
+\noindent Based on a specified hardware configuration, this is what the Nexys DDR-4 FPGA Board would look like in when LEDs are flashing.\\\\\\
+\includegraphics[width=1.2\textwidth]{Blinking-LED Core Flashing Instance.png}
+\newpage 
+\\\\\\\\\\\\\\To produce this flashing pattern, Pong Chu's vanilla System Verilog Interface was used. This interface included a microblazeI cpu and utilized dual-HDL programming functionality (Vivado and Vitis).\\\\\\\\\\\\\\
+The mcs top vanilla System Verilog module is a system wrapper for a MicroBlaze MCS-based design. It connects the CPU to memory-mapped peripherals, including switches, LEDs, and UART. This module creates a complete embedded system where software running on MicroBlaze controls hardware peripherals via memory-mapped IO.\\\\\\
+\newpage
+\underline{Figure 1: The mcs top vanilla (system wrapper) module:}\\\\\\
+\includegraphics[width=0.55\textwidth]{mcs top vanilla (system wrapper) module.jpg}
+\newpage
+The blink led System Verilog module implements a memory-mapped LED blink controller. Each LED has a programmable blink rate stored in registers that software can read and write. The software controls LED blinking behavior dynamically by writing millisecond values into registers.\\\\\\
+\underline{Figure 2: The blink led (blinking-LED) module:}\\\\\\
+\includegraphics[width=1.1\textwidth]{blink led (blinking-LED) module.jpg}
+\newpage
+\\\\Finally, the led System Verilog module controls one physical LED, toggling it at a programmable rate. This module turns a human-friendly time value (milliseconds) into precise hardware timing using counters.\\\\\\
+\underline{Figure 3: The led (basic LED) module:}\\\\\\
+\includegraphics[width=1.2\textwidth]{led (basic LED) module.png}
+\newpage
+\noindent
+Overall, the Blinking-LED Core Project taught me how to: design the blinking circuit for one LED and duplicate it four times, determine the register map and derive the wrapping circuit, derive the HDL code, derive the device driver, expand the vanilla MMIO subsystem to include a blinking-LED core slot 4, modify the vanilla FPro system to connect the led signal to the blinking-LED core, synthesize the new system, derive a testing program, and verify its operation.\\\\\\
+\end{document}
